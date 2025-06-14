@@ -31,7 +31,24 @@ AlgoVault is a simple yet powerful web application for tracking DSA (Data Struct
 
 ## 📸 Screenshots
 
-> (Add screenshots after deployment or development)
+#### 🏠 Home Page  
+![Home Page](screenshots/home_page.png)
+
+#### 🔐 Login Page  
+![Login Page](screenshots/login_page.png)
+
+#### 📝 Register Page  
+![Register Page](screenshots/register_page.png)
+
+#### 📋 Dashboard Page  
+![Dashboard](screenshots/dashboard_page.png)
+
+#### ➕ Add Problem Page  
+![Add Problem](screenshots/add_problem_page.png)
+
+#### ✏️ Edit Problem Page  
+![Edit Problem](screenshots/edit_page.png)
+
 
 - Login / Register Portal  
 - Dashboard with filters & chart  
