@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to AlgoVault</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #007bff, #6610f2);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .portal {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="portal">
+        <h1>Welcome to AlgoVault 🚀</h1>
+        <p>Track, practice & master DSA with ease.</p>
+        <a href="{{ url_for('auth.login') }}" class="btn">🔐 Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn">📝 Register</a>
+    </div>
+
+</body>
+</html>

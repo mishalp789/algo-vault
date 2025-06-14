@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Problem – AlgoVault</title>
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Edit Problem</h2>
+  <form method="POST">
+    <input type="text" name="title" value="{{ problem.title }}" placeholder="Problem Title" required>
+    <input type="text" name="platform" value="{{ problem.platform }}" placeholder="Platform" required>
+    <select name="difficulty" required>
+      <option value="Easy" {% if problem.difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+      <option value="Medium" {% if problem.difficulty == 'Medium' %}selected{% endif %}>Medium</option>
+      <option value="Hard" {% if problem.difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+    </select>
+    <select name="status" required>
+      <option value="Solved" {% if problem.status == 'Solved' %}selected{% endif %}>Solved</option>
+      <option value="Unsolved" {% if problem.status == 'Unsolved' %}selected{% endif %}>Unsolved</option>
+    </select>
+    <button type="submit" class="btn">Update</button>
+  </form>
+  <a href="{{ url_for('main.dashboard') }}">← Back to Dashboard</a>
+</div>
+
+</body>
+</html>
