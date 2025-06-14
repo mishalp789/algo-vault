@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AlgoVault – Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        .btn-group {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .filter-form select,
+        .filter-form input {
+            padding: 6px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e9ecef;
+        }
+
+        .stats {
+            margin-top: 30px;
+        }
+
+        .stats p {
+            margin: 5px;
+        }
+
+        .chart {
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .flash {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📊 Welcome, {{ current_user.username }}</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="btn-group">
+        <a href="{{ url_for('main.add_problem') }}" class="btn">➕ Add Problem</a>
+        <a href="{{ url_for('main.export') }}" class="btn">⬇️ Export CSV</a>
+        <a href="{{ url_for('auth.logout') }}" class="btn">🔓 Logout</a>
+    </div>
+
+    <form method="GET" class="filter-form">
+        <label>Platform:</label>
+        <select name="platform">
+            <option value="">All</option>
+            <option value="LeetCode">LeetCode</option>
+            <option value="Codeforces">Codeforces</option>
+            <option value="GeeksforGeeks">GeeksforGeeks</option>
+            <option value="HackerRank">HackerRank</option>
+        </select>
+
+        <label>Difficulty:</label>
+        <select name="difficulty">
+            <option value="">All</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+        </select>
+
+        <label>Search:</label>
+        <input type="text" name="search" placeholder="e.g. Two Sum">
+
+        <button type="submit" class="btn">Apply</button>
+    </form>
+
+    {% if problems %}
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Platform</th>
+                <th>Difficulty</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            {% for problem in problems %}
+            <tr>
+                <td>{{ problem.title }}</td>
+                <td>{{ problem.platform }}</td>
+                <td>{{ problem.difficulty }}</td>
+                <td>{{ problem.status }}</td>
+                <td>
+                    <a href="{{ url_for('main.edit_problem', id=problem.id) }}" class="btn">✏️ Edit</a>
+                    <a href="{{ url_for('main.delete_problem', id=problem.id) }}" class="btn" onclick="return confirm('Are you sure?')">❌ Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No problems found. Start adding some!</p>
+    {% endif %}
+
+    <div class="stats">
+        <p><strong>Total:</strong> {{ total }}</p>
+        <p><strong>Solved:</strong> {{ solved }}</p>
+        <p><strong>Unsolved:</strong> {{ unsolved }}</p>
+    </div>
+
+    <div class="chart">
+        <canvas id="problemChart" width="300" height="300"></canvas>
+    </div>
+</div>
+
+<script>
+    const solved = Number("{{ solved|default(0, true) }}");
+    const unsolved = Number("{{ unsolved|default(0, true) }}");
+
+    const ctx = document.getElementById('problemChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Solved', 'Unsolved'],
+            datasets: [{
+                data: [solved, unsolved],
+                backgroundColor: ['#28a745', '#dc3545']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
